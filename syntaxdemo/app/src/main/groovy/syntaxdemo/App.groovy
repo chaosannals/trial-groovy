@@ -10,9 +10,10 @@ class App {
 
     static void main(String[] args) {
         def app = new App()
-        app.mapDemo()
         app.stringDemo()
         app.numberDemo()
+        app.listDemo()
+        // app.mapDemo()
         println app.greeting
     }
 
@@ -36,8 +37,6 @@ class App {
 
         BigDecimal bd = 3.45678912345g
         println bd
-
-
 
         println "number ======= end"
     }
@@ -80,6 +79,21 @@ class App {
         println "string ======= end"
     }
 
+    void listDemo() {
+        println "list ======= start"
+
+        def ns = [1,2,3]
+        println ns
+
+        def a = ns as int[]
+        println a instanceof int[]
+
+        def m3x3 = new Integer[3][3]
+        println m3x3
+        
+        println "list ======= end"
+    }
+
     void mapDemo() {
         def map1 = [:]
         println "map ======= start"
@@ -92,6 +106,8 @@ class App {
 
         println ''
         println map1.dump()
+        println ''
+        println map1
 
         map1.each { k, v -> 
             println "## $k => $v"
@@ -106,6 +122,8 @@ class App {
 
         println ''
         println map2.dump()
+        println ''
+        println map2
 
         for (pair in map2) {
             println "@@ ${pair.key} => ${pair.value}"
