@@ -3,6 +3,32 @@
  */
 package syntaxdemo
 
+class User {
+    Long id
+    public String name
+
+    // 定义构造函数将不提供默认的 User(Map) 构造函数
+    // User(String name) {
+    //     this.name = name
+    // }
+
+    String getName() { "Name: $name" } 
+
+    def getAt(int i) { // 操作符 [] get
+        switch (i) {
+            case 0: return id
+            case 1: return name
+        }
+        return "undefined"
+    }
+    void putAt(int i, def value) { // 操作符 [] set
+        switch (i) {
+            case 0: id = value; return
+            case 1: name = value; return
+        }
+    }
+}
+
 class App {
     String getGreeting() {
         return 'Hello World!'
@@ -13,8 +39,29 @@ class App {
         app.stringDemo()
         app.numberDemo()
         app.listDemo()
-        // app.mapDemo()
+        app.mapDemo()
+        app.classDemo()
         println app.greeting
+    }
+
+    void classDemo() {
+        println "class ======= start"
+
+        def user = new User(id: 1, name: 'Bob')
+        println user.name // getName
+        println user.@name // name
+
+        def str = 'example of method reference'            
+        def fun1 = str.&toUpperCase //
+        def fun2 = { str.toUpperCase() }
+        println fun1()
+        println fun2()
+
+        println "${user[0]} ${user[1]}"
+        user[1] = "Bob2"
+        println "${user[0]} ${user[1]}"
+
+        println "class ======= end"
     }
 
     void numberDemo() {
@@ -66,6 +113,20 @@ class App {
         def token = 'safa'
         def regx2Pattern = /^${token}.+?other$/
         println regx2Pattern
+        println regx2Pattern.dump()
+
+        def regxJavaPatter = ~/^${token}.+?other$/ // java.util.regex.Pattern
+        println regxJavaPatter
+        println regxJavaPatter.dump()
+
+        def text = "some text to match, text too"
+        def m = text =~ /text to/ // match operator =~ 模糊匹配
+        println m // Matcher 返回
+        println m.find(0) ? m[0] : 'not match'
+        println m.size() // 匹配多个
+
+        def mm = text ==~ /^.+?text to.+$/ // match operator ==~ 严格匹配
+        println mm // Boolean 返回
 
         def dollar = $/
         bbb
@@ -90,6 +151,10 @@ class App {
 
         def m3x3 = new Integer[3][3]
         println m3x3
+
+        def ts = ["aaa", "bbb", "ccc"]
+        println "aaa" in ts
+        println "bbbb" !in ts
         
         println "list ======= end"
     }
